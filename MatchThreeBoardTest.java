@@ -7,11 +7,14 @@
 package edu.kit.informatik.matchthree.tests;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -229,6 +232,20 @@ public class MatchThreeBoardTest {
     }
 
     @Test
+    public void invalidTokenString12Test()
+    {
+        exception.expect(TokenStringParseException.class);
+        new MatchThreeBoard(Token.set("ab"), "aaa;aaa;aaaa;aa;aaa");
+    }
+
+    @Test
+    public void invalidTokenString13Test()
+    {
+        exception.expect(TokenStringParseException.class);
+        new MatchThreeBoard(Token.set("ab"), "aaa;aaa;aa;aaaa;aaa");
+    }
+
+    @Test
     public void invalidTokenInTokenStringTest()
     {
         exception.expect(TokenStringParseException.class);
@@ -378,6 +395,198 @@ public class MatchThreeBoardTest {
 
         exception.expect(IllegalArgumentException.class);
         board.setTokenAt(Position.at(0, 0), new Token("c"));
+    }
+
+    @Test
+    public void setTokenAtOutOfBounds1Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.setTokenAt(Position.at(2, 4), new Token("a"));
+    }
+
+    @Test
+    public void setTokenAtOutOfBounds2Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.setTokenAt(Position.at(4, 2), new Token("a"));
+    }
+
+    @Test
+    public void setTokenAtOutOfBounds3Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.setTokenAt(Position.at(4, 4), new Token("a"));
+    }
+
+    @Test
+    public void setTokenAtOutOfBounds4Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.setTokenAt(Position.at(2, -1), new Token("a"));
+    }
+
+    @Test
+    public void setTokenAtOutOfBounds5Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.setTokenAt(Position.at(-1, 2), new Token("a"));
+    }
+
+    @Test
+    public void setTokenAtOutOfBounds6Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.setTokenAt(Position.at(-1, -1), new Token("a"));
+    }
+
+    @Test
+    public void setTokenAtOutOfBounds7Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.setTokenAt(Position.at(2147483647, 2147483647), new Token("a"));
+    }
+
+    @Test
+    public void setTokenAtOutOfBounds8Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.setTokenAt(Position.at(-2147483648, -2147483648), new Token("a"));
+    }
+
+    @Test
+    public void getTokenAtOutOfBounds1Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.getTokenAt(Position.at(2, 4));
+    }
+
+    @Test
+    public void getTokenAtOutOfBounds2Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.getTokenAt(Position.at(4, 2));
+    }
+
+    @Test
+    public void getTokenAtOutOfBounds3Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.getTokenAt(Position.at(4, 4));
+    }
+
+    @Test
+    public void getTokenAtOutOfBounds4Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.getTokenAt(Position.at(2, -1));
+    }
+
+    @Test
+    public void getTokenAtOutOfBounds5Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.getTokenAt(Position.at(-1, 2));
+    }
+
+    @Test
+    public void getTokenAtOutOfBounds6Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.getTokenAt(Position.at(-1, -1));
+    }
+
+    @Test
+    public void getTokenAtOutOfBounds7Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.getTokenAt(Position.at(2147483647, 2147483647));
+    }
+
+    @Test
+    public void getTokenAtOutOfBounds8Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 4);
+
+        exception.expect(BoardDimensionException.class);
+        board.getTokenAt(Position.at(-2147483648, -2147483648));
+    }
+
+    @Test
+    public void getTokenTest()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 4, 5);
+
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                assertNull(board.getTokenAt(Position.at(i, j)));
+            }
+        }
+
+        board.setTokenAt(Position.at(2, 3), new Token('a'));
+        assertNull(board.getTokenAt(Position.at(3, 2)));
+        assertEquals(new Token("a"), board.getTokenAt(Position.at(2, 3)));
+
+        board = new MatchThreeBoard(Token.set("cdef"), "cdd ;dfdc;ccde");
+        assertNull(board.getTokenAt(Position.at(3, 0)));
+        assertEquals(new Token('e'), board.getTokenAt(Position.at(3, 2)));
+        board.setTokenAt(Position.at(3, 0), new Token("c"));
+        assertEquals(new Token('c'), board.getTokenAt(Position.at(3, 0)));
+        assertEquals("cddc;dfdc;ccde", board.toTokenString());
+    }
+
+    @Test
+    public void remoteTokensRollback()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("abc"), " ab;abc");
+        LinkedHashSet<Position> pos = new LinkedHashSet<>();
+        pos.add(new Position(0, 0));
+        pos.add(new Position(0, 1));
+        pos.add(new Position(2, 1));
+        pos.add(null);
+        pos.add(new Position(2, 2));
+
+        try
+        {
+            board.removeTokensAt(pos);
+            fail("This should have thrown");
+        }
+        catch (IllegalArgumentException ex)
+        {
+        }
+
+        assertEquals(" ab;abc", board.toTokenString());
     }
 }
 
