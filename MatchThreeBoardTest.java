@@ -6,6 +6,7 @@
 
 package edu.kit.informatik.matchthree.tests;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -26,6 +27,7 @@ import edu.kit.informatik.matchthree.framework.Position;
 import edu.kit.informatik.matchthree.framework.Token;
 import edu.kit.informatik.matchthree.framework.interfaces.Board;
 import edu.kit.informatik.matchthree.framework.exceptions.BoardDimensionException;
+import edu.kit.informatik.matchthree.framework.exceptions.NoFillingStrategyException;
 import edu.kit.informatik.matchthree.framework.exceptions.TokenStringParseException;
 
 public class MatchThreeBoardTest {
@@ -567,7 +569,7 @@ public class MatchThreeBoardTest {
     }
 
     @Test
-    public void remoteTokensRollback()
+    public void removeTokensRollback()
     {
         MatchThreeBoard board = new MatchThreeBoard(Token.set("abc"), " ab;abc");
         LinkedHashSet<Position> pos = new LinkedHashSet<>();
@@ -587,6 +589,92 @@ public class MatchThreeBoardTest {
         }
 
         assertEquals(" ab;abc", board.toTokenString());
+    }
+
+    @Test
+    public void noFillingStrategyTest()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), "  ;  ");
+        exception.expect(NoFillingStrategyException.class);
+        board.fillWithTokens();
+    }
+
+    @Test
+    public void setNullFillingStrategyTest()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), "  ;  ");
+        exception.expect(NullPointerException.class);
+        board.setFillingStrategy(null);
+    }
+
+    @Test
+    public void moveTokensToBottom1Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("abcdefghi"),
+            "a b ; c d;    ;efgh; i  ");
+        Set<Position> changed = board.moveTokensToBottom();
+        assertEquals("    ;    ; c  ;afbd;eigh", board.toTokenString());
+
+        Set<Position> expected = new HashSet<Position>();
+
+        expected.add(Position.at(1, 2));
+        expected.add(Position.at(0, 3));
+        expected.add(Position.at(2, 3));
+        expected.add(Position.at(3, 3));
+        expected.add(Position.at(0, 4));
+        expected.add(Position.at(2, 4));
+        expected.add(Position.at(3, 4));
+        assertEquals(expected, changed);
+    }
+
+    @Test(timeout=15000)
+    public void moveTokensToBottom2Test()
+    {
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 10000, 10000);
+        Set<Position> changed = board.moveTokensToBottom();
+        String expected = String.join(";", Collections.nCopies(10000,
+            String.join("", Collections.nCopies(10000, " "))));
+        assertEquals(expected, board.toTokenString());
+    }
+
+    @Test(timeout=25000)
+    public void moveTokensToBottom3Test()
+    {
+        // Could go up to 5000 if a proper hash on position was used.
+        int N = 3000;
+        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), N, N);
+
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+                if ((i + j) % 2 == 0)
+                {
+                    board.setTokenAt(Position.at(i, j), new Token("a"));
+                }
+            }
+        }
+
+        Set<Position> changed = board.moveTokensToBottom();
+
+        HashSet<Position> expected = new HashSet<>();
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+                if (j < N / 2)
+                {
+                    assertEquals(null, board.getTokenAt(Position.at(i, j)));
+                }
+                else
+                {
+                    if (j < N - 1 || (i + j) % 2 == 1)
+                        expected.add(Position.at(i, j));
+                    assertEquals(new Token("a"), board.getTokenAt(Position.at(i, j)));
+                }
+            }
+        }
+        assertEquals(expected, changed);
     }
 }
 
