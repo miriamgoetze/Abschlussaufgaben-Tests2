@@ -632,6 +632,7 @@ public class MatchThreeBoardTest {
         String expected = String.join(";", Collections.nCopies(10000,
             String.join("", Collections.nCopies(10000, " "))));
         assertEquals(expected, board.toTokenString());
+        assertTrue(changed.isEmpty());
     }
 
     @Test(timeout=25000)

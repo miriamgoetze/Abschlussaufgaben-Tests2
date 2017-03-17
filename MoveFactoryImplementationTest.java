@@ -60,6 +60,54 @@ public class MoveFactoryImplementationTest
         theMove.apply(board);
         assertEquals("dabd;ad b;baaa;dcca", board.toTokenString());
     }
+
+    @Test
+    public void rotateColumnDownDifferentBoardSizesTest()
+    {
+        MoveFactoryImplementation fact = new MoveFactoryImplementation();
+        Move theMove = fact.rotateColumnDown(0);
+        MatchThreeBoard board;
+
+        board = new MatchThreeBoard(Token.set("abcd"), "aaaa;bbbb;cccc;dddd");
+        assertTrue(theMove.canBeApplied(board));
+        theMove.apply(board);
+        assertEquals("daaa;abbb;bccc;cddd", board.toTokenString());
+
+        board = new MatchThreeBoard(Token.set("ef"), "ee;ff");
+        assertTrue(theMove.canBeApplied(board));
+        theMove.apply(board);
+        assertEquals("fe;ef", board.toTokenString());
+
+        board = new MatchThreeBoard(Token.set("ghijk"),
+            "ggggg;hhhhh;iiiii;jjjjj;kkkkk");
+        assertTrue(theMove.canBeApplied(board));
+        theMove.apply(board);
+        assertEquals("kgggg;ghhhh;hiiii;ijjjj;jkkkk", board.toTokenString());
+    }
+
+    @Test
+    public void rotateRowRightDifferentBoardSizesTest()
+    {
+        MoveFactoryImplementation fact = new MoveFactoryImplementation();
+        Move theMove = fact.rotateRowRight(1);
+        MatchThreeBoard board;
+
+        board = new MatchThreeBoard(Token.set("abcd"), "abcd;abcd;abcd;abcd");
+        assertTrue(theMove.canBeApplied(board));
+        theMove.apply(board);
+        assertEquals("abcd;dabc;abcd;abcd", board.toTokenString());
+
+        board = new MatchThreeBoard(Token.set("ef"), "ef;ef");
+        assertTrue(theMove.canBeApplied(board));
+        theMove.apply(board);
+        assertEquals("ef;fe", board.toTokenString());
+
+        board = new MatchThreeBoard(Token.set("ghijk"),
+            "ghijk;ghijk;ghijk;ghijk;ghijk");
+        assertTrue(theMove.canBeApplied(board));
+        theMove.apply(board);
+        assertEquals("ghijk;kghij;ghijk;ghijk;ghijk", board.toTokenString());
+    }
 }
 
 // vim: set expandtab:
