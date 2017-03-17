@@ -159,28 +159,28 @@ public class MatchThreeBoardTest {
     @Test
     public void invalidTokenString1Test()
     {
-        exception.expect(TokenStringParseException.class);
+        exception.expect(IllegalArgumentException.class);
         new MatchThreeBoard(Token.set("ab"), "");
     }
 
     @Test
     public void invalidTokenString2Test()
     {
-        exception.expect(TokenStringParseException.class);
+        exception.expect(IllegalArgumentException.class);
         new MatchThreeBoard(Token.set("ab"), ";");
     }
 
     @Test
     public void invalidTokenString3Test()
     {
-        exception.expect(TokenStringParseException.class);
+        exception.expect(IllegalArgumentException.class);
         new MatchThreeBoard(Token.set("ab"), "a");
     }
 
     @Test
     public void invalidTokenString4Test()
     {
-        exception.expect(TokenStringParseException.class);
+        exception.expect(IllegalArgumentException.class);
         new MatchThreeBoard(Token.set("ab"), "a;a");
     }
 
@@ -222,14 +222,14 @@ public class MatchThreeBoardTest {
     @Test
     public void invalidTokenString10Test()
     {
-        exception.expect(TokenStringParseException.class);
+        exception.expect(IllegalArgumentException.class);
         new MatchThreeBoard(Token.set("ab"), "aaaaaaaaaaaaaaa");
     }
 
     @Test
     public void invalidTokenString11Test()
     {
-        exception.expect(TokenStringParseException.class);
+        exception.expect(IllegalArgumentException.class);
         new MatchThreeBoard(Token.set("ab"), "a;a;a;a;a;a;a;a;a;a;a");
     }
 
@@ -387,9 +387,6 @@ public class MatchThreeBoardTest {
             // This will either throw or not, we don't care whether it does
             // as long as the underlying set is not modified.
         }
-
-        assertEquals(2, valid.size());
-        assertFalse(valid.contains(new Token("c")));
 
         valid = board.getAllValidTokens();
         assertEquals(2, valid.size());
