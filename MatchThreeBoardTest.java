@@ -123,15 +123,15 @@ public class MatchThreeBoardTest {
     }
     
     @Test
-    public void nullPositionTest1()
+    public void nullPosition1Test()
     {
-        exception.expect(IllegalArgumentException.class);
         MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 2, 2);
+        exception.expect(IllegalArgumentException.class);
         board.containsPosition(null);
     }
 
     @Test
-    public void nullPositionTest2()
+    public void nullPosition2Test()
     {
         exception.expect(IllegalArgumentException.class);
         MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 2, 2);
@@ -139,15 +139,15 @@ public class MatchThreeBoardTest {
     }
     
     @Test
-    public void nullPositionTest3()
+    public void nullPosition3Test()
     {
-        exception.expect(IllegalArgumentException.class);
         MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 2, 2);
+        exception.expect(IllegalArgumentException.class);
         board.setTokenAt(null, null);
     }
     
     @Test
-    public void nullPositionTest4()
+    public void nullPosition4Test()
     {
         exception.expect(IllegalArgumentException.class);
         MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 2, 2);
@@ -155,37 +155,27 @@ public class MatchThreeBoardTest {
     }
     
     @Test
-    public void nullPositionTest5()
+    public void nullPosition5Test()
     {
-        exception.expect(IllegalArgumentException.class);
         MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 2, 2);
+        exception.expect(IllegalArgumentException.class);
         board.swapTokens(Position.at(0, 0), null);
     }
     
     @Test
-    public void nullPositionTest6()
+    public void nullPosition6Test()
     {
-        exception.expect(IllegalArgumentException.class);
         MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 2, 2);
+        exception.expect(IllegalArgumentException.class);
         board.removeTokensAt(null);
     }
     
     @Test
-    public void nullPositionTest7()
+    public void nullPosition7Test()
     {
-        exception.expect(IllegalArgumentException.class);
         MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 2, 2);
-        board.removeTokensAt(new HashSet<Position>(Arrays.asList(Position.at(0, 0), null)));
-    }
-    
-    @Test
-    public void nullPositionTest8()
-    {
         exception.expect(IllegalArgumentException.class);
-        MatchThreeBoard board = new MatchThreeBoard(Token.set("ab"), 2, 2);
-        board.setTokenAt(Position.at(0, 0), new Token('a'));
         board.removeTokensAt(new HashSet<Position>(Arrays.asList(Position.at(0, 0), null)));
-        assertEquals("a ;  ", board.toTokenString());
     }
     
     @Test
