@@ -6,6 +6,7 @@
 package edu.kit.informatik.matchthree.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -107,6 +108,20 @@ public class MoveFactoryImplementationTest
         assertTrue(theMove.canBeApplied(board));
         theMove.apply(board);
         assertEquals("ghijk;kghij;ghijk;ghijk;ghijk", board.toTokenString());
+    }
+
+    @Test
+    public void rotateInvalidRowColumnNumberTest()
+    {
+        MoveFactoryImplementation fact = new MoveFactoryImplementation();
+        Move theMove = fact.rotateColumnDown(-1);
+
+        assertFalse(theMove.canBeApplied(new MatchThreeBoard(
+            Token.set("ab"), 20, 20)));
+
+        theMove = fact.rotateRowRight(-1);
+        assertFalse(theMove.canBeApplied(new MatchThreeBoard(
+            Token.set("ab"), 20, 20)));
     }
 }
 
